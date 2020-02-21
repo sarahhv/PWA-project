@@ -11,5 +11,5 @@
   ],
   "name": "A Shopping App",
   "short_name": "Shopping",
-  "start_url": "/PWA-project/index.html"
+  "start_url": "./PWA-project/index.html"
 }
