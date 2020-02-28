@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to Firebase Hosting</title>
     <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="style.css">
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/7.9.0/firebase-app.js"></script>
@@ -15,26 +16,54 @@
     <script defer src="/__/firebase/7.9.0/firebase-storage.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
-  </head>
-  <body>
-  <h1>Hey</h1>
+</head>
+<body>
+<header>
+    <h1>Shopping list</h1>
+</header>
 
+<!--<main>
+    <ul>
+        <li>Hit the gym</li>
+        <li class="checked">Pay bills</li>
+        <li>Meet George</li>
+        <li>Buy eggs</li>
+        <li>Read a book</li>
+        <li>Organize office</li>
+    </ul>
+  <input type="text" id="myInput" placeholder="Title...">
+    <button id="addItem" onclick="newElement()">+</button>
+</main>-->
 
+<div id="myDIV" class="header">
+  <h2 style="margin:5px">My To Do List</h2>
+  <input type="text" id="myInput" placeholder="Title...">
+  <span onclick="newElement()" class="addBtn">Add</span>
+</div>
 
-  <script>
+<ul id="myUL">
+  <li>Hit the gym</li>
+  <li class="checked">Pay bills</li>
+  <li>Meet George</li>
+  <li>Buy eggs</li>
+  <li>Read a book</li>
+  <li>Organize office</li>
+</ul>
+
+<script>
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js")
-              .then(function(registration) {
+        navigator.serviceWorker.register("sw.js")
+            .then(function (registration) {
                 console.log("Service Worker registered with scope:", registration.scope);
-              }).catch(function(err) {
-        console.log("Service worker registration failed:", err);
-      });
+            }).catch(function (err) {
+            console.log("Service worker registration failed:", err);
+        });
     }
 
-  </script>
+</script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
@@ -46,14 +75,16 @@
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
         try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+            let app = firebase.app();
+            let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+            document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
         } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+            console.error(e);
+            document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
-      });
-    </script>
-  </body>
+    });
+</script>
+
+<script src="script.js"></script>
+</body>
 </html>

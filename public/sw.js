@@ -1,6 +1,7 @@
 const filesToCache = [
     'index.html',
-    'style.css'
+    'style.css',
+    'script.js'
 ];
 
 var staticCacheName = 'pages-cache-v1';
