@@ -1,31 +1,68 @@
-// Chrome's currently missing some useful cache methods,
-// this polyfill adds them.
-// importScripts('serviceworker-cache-polyfill.js');
+const filesToCache = [
+    'index.html',
+    'style.css'
+];
 
-// Here comes the install event!
+var staticCacheName = 'pages-cache-v1';
+
 // This only happens once, when the browser sees this version of the ServiceWorker for the first time.
-self.addEventListener('install', function (event) {
-    // We pass a promise to event.waitUntil to signal how
-    // long install takes, and if it failed
+self.addEventListener('install', event => {
     event.waitUntil(
-        // We open a cache…
-        caches.open('simple-sw-v1').then(function (cache) {
+        caches.open(staticCacheName)
+            .then(cache => {
             // And add resources to it
-            return cache.addAll([
-                //add the files that needs to be cache
-                'index.html',
-                'style.css'
-            ]);
+            return cache.addAll(filesToCache);
         })
     );
 });
 
 //Eventlistener for fetch
-self.addEventListener('fetch', function(e) {
-    console.log(e.request.url);
-/*    e.respondWith(
-        caches.match(e.request).then(function(response) {
-            return response || fetch(e.request);
+self.addEventListener('fetch', event => {
+    console.log('Fetch event for ', event.request.url);
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => {
+                if (response) {
+                    console.log('Found ', event.request.url, ' in cache');
+                    return response;
+                }
+                console.log('Network request for ', event.request.url);
+                return fetch(event.request)
+
+                    .then(response => {
+                        if (response.status === 404) {
+                            return caches.match('pages/404.html');
+                        }
+                        return caches.open(staticCacheName)
+                            .then(cache => {
+                                cache.put(event.request.url, response.clone());
+                                return response;
+                            });
+                    });
+
+            }).catch(error => {
+
+            console.log('Error, ', error);
+            return caches.match('pages/offline.html');
+
         })
-    );*/
+    );
+});
+
+self.addEventListener('activate', event => {
+    console.log('Activating new service worker...');
+
+    const cacheWhitelist = [staticCacheName];
+
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
