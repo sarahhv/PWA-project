@@ -34,7 +34,7 @@ self.addEventListener("fetch", function(event) {
                 });*/
                 let fetchPromise =
                     fetch(event.request).then(function (networkResponse) {
-                        if (response.status === 404) {
+                        if (networkResponse.status === 404) {
                             return caches.match('pages/404.html');
                         }
                         cache.put(event.request, networkResponse.clone());
