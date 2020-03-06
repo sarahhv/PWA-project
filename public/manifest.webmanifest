@@ -1,7 +1,7 @@
 {
   "background_color": "green",
   "description": "Shopping List",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "icon/logo.png",
