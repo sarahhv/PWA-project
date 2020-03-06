@@ -4,7 +4,7 @@ const filesToCache = [
     'script.js'
 ];
 
-var staticCacheName = 'pages-cache-v1';
+var staticCacheName = 'pages-cache-v2';
 
 // This only happens once, when the browser sees this version of the ServiceWorker for the first time.
 self.addEventListener('install', event => {
@@ -20,23 +20,23 @@ self.addEventListener('install', event => {
 self.addEventListener("fetch", function(event) {
     console.log('Fetch event for ', event.request.url);
     event.respondWith(
-        caches.open("cache-name").then(function (cache) {
+        caches.open(staticCacheName).then(function (cache) {
             return cache.match(event.request).then(function (cachedResponse) {
                 if (cachedResponse) {
                     console.log('Found ', event.request.url, 'in cache');
                 }
                 console.log('Network request for ', event.request.url);
-                return fetch(event.request).then(response => {
-                    if (response.status === 404) {
-                        return caches.match('pages/404.html');
-                    }
-                    return caches.open(staticCacheName).then(cache => {
-                        cache.put(event.request.url, response.clone());
-                        return response;
-                    });
-                });
-                var fetchPromise =
+                /*fetch(event.request).then(response => {
+                  return caches.open(staticCacheName).then(cache => {
+                       cache.put(event.request.url, response.clone());
+                       return response;
+                   });
+                });*/
+                let fetchPromise =
                     fetch(event.request).then(function (networkResponse) {
+                        if (response.status === 404) {
+                            return caches.match('pages/404.html');
+                        }
                         cache.put(event.request, networkResponse.clone());
                         return networkResponse;
                     });
