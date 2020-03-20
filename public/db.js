@@ -1,5 +1,3 @@
-
-
 var todoDB = (function() {
   var tDB = {};
   var datastore = null;
@@ -99,16 +97,25 @@ var todoDB = (function() {
     var objStore = transaction.objectStore('todo');
 
     // Create a timestamp for the todo item.
-    
+    var timestamp = new Date().getTime();
+
     // Create an object for the todo item.
+    var todo = {
+      'text': text,
+      'timestamp': timestamp
+    };
 
     // Create the datastore request.
+    var request = objStore.put(todo);
 
     // Handle a successful datastore put.
-
+    request.onsuccess = function (e) {
       // Execute the callback function.
+      callback(todo);
+    }
 
     // Handle errors.
+    request.onerror = tDB.onerror;
 
   };
 
