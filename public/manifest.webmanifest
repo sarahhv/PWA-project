@@ -9,7 +9,7 @@
       "type": "image/png"
     }
   ],
-  "name": "A Shopping App",
-  "short_name": "Shopping",
+  "name": "Foodit",
+  "short_name": "Foodit",
   "start_url": "./PWA-project/index.html"
 }
