@@ -4,7 +4,7 @@ const filesToCache = [
     'app.js'
 ];
 
-var staticCacheName = 'pages-cache-v2';
+var staticCacheName = 'pages-cache-v3';
 
 // This only happens once, when the browser sees this version of the ServiceWorker for the first time.
 self.addEventListener('install', event => {
