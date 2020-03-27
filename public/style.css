@@ -10,10 +10,11 @@ body {
     padding: 0;
 }
 
-h2 {
+img {
     margin: 5px;
     font-family: Arial, sans-serif;
     font-size: 1.5em;
+    width: 80%;
 }
 
 /* Style the list items */
@@ -45,7 +46,7 @@ ul li:hover {
 
 /* Style the header */
 .header {
-    background-color: #f44336;
+    background-color: #50C878;
     padding: 30px 40px;
     color: white;
     text-align: center;
