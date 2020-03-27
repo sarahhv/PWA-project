@@ -19,15 +19,12 @@
 </head>
 <body>
 <header>
-    <h1>Shopping list</h1>
+    <form id="myDIV" class="header" method="POST" action="#">
+        <h2>Shopping list name</h2>
+        <input type="text" id="myInput" placeholder="Add a todo item..." name="new-todo" required>
+        <input type="submit" class="addBtn" value="Add to list">
+    </form>
 </header>
-
-<form id="myDIV" class="header" method="POST" action="#">
-    <h2 style="margin:5px">My To Do List</h2>
-    <input type="text" id="myInput" placeholder="Add a todo item..." name="new-todo" required>
-    <input type="submit" class="addBtn" value="Add to list">
-</form>
-
 <ul id="myUL">
 </ul>
 
