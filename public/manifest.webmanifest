@@ -11,5 +11,6 @@
   ],
   "name": "Foodit",
   "short_name": "Foodit",
-  "start_url": "./PWA-project/index.html"
+  "start_url": "https://pwa-project-2020.firebaseapp.com/index",
+  "theme_color": "#315a31"
 }
