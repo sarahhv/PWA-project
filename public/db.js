@@ -88,8 +88,6 @@ var todoDB = (function() {
     // Get a reference to the db.
     var db = datastore;
 
-    //TODO: finish the rest of the function here. There's a comment for all the small steps you have to take: 
-
     // Initiate a new transaction.
     var transaction = db.transaction(['todo'], 'readwrite');
 
