@@ -1,4 +1,4 @@
-var todoDB = (function() {
+var shoppingDB = (function() {
   var tDB = {};
   var datastore = null;
 
@@ -10,7 +10,7 @@ var todoDB = (function() {
     var version = 1;
 
     // Open a connection to the datastore.
-    var request = indexedDB.open('todos', version);
+    var request = indexedDB.open('shoppings', version);
 
     // Handle datastore upgrades.
     request.onupgradeneeded = function(e) {
@@ -19,12 +19,12 @@ var todoDB = (function() {
       e.target.transaction.onerror = tDB.onerror;
 
       // Delete the old datastore.
-      if (db.objectStoreNames.contains('todo')) {
-        db.deleteObjectStore('todo');
+      if (db.objectStoreNames.contains('shopping')) {
+        db.deleteObjectStore('shopping');
       }
 
       // Create a new datastore.
-      var store = db.createObjectStore('todo', {
+      var store = db.createObjectStore('shopping', {
         keyPath: 'timestamp'
       });
     };
@@ -44,24 +44,24 @@ var todoDB = (function() {
 
 
   /**
-   * Fetch all of the todo items in the datastore.
+   * Fetch all of the shopping items in the datastore.
    * @param {function} callback A function that will be executed once the items
    *                            have been retrieved. Will be passed a param with
-   *                            an array of the todo items.
+   *                            an array of the shopping items.
    */
-  tDB.fetchTodos = function(callback) {
+  tDB.fetchShoppings = function(callback) {
     var db = datastore;
-    var transaction = db.transaction(['todo'], 'readwrite');
-    var objStore = transaction.objectStore('todo');
+    var transaction = db.transaction(['shopping'], 'readwrite');
+    var objStore = transaction.objectStore('shopping');
 
     var keyRange = IDBKeyRange.lowerBound(0);
     var cursorRequest = objStore.openCursor(keyRange);
 
-    var todos = [];
+    var shoppings = [];
 
     transaction.oncomplete = function(e) {
       // Execute the callback function.
-      callback(todos);
+      callback(shoppings);
     };
 
     cursorRequest.onsuccess = function(e) {
@@ -71,7 +71,7 @@ var todoDB = (function() {
         return;
       }
       
-      todos.push(result.value);
+      shoppings.push(result.value);
 
       result.continue();
     };
@@ -81,35 +81,35 @@ var todoDB = (function() {
 
 
   /**
-   * Create a new todo item.
-   * @param {string} text The todo item.
+   * Create a new shopping item.
+   * @param {string} text The shopping item.
    */
-  tDB.createTodo = function(text, callback) {
+    tDB.createShopping = function(text, callback) {
     // Get a reference to the db.
     var db = datastore;
 
     // Initiate a new transaction.
-    var transaction = db.transaction(['todo'], 'readwrite');
+    var transaction = db.transaction(['shopping'], 'readwrite');
 
     // Get the datastore.
-    var objStore = transaction.objectStore('todo');
+    var objStore = transaction.objectStore('shopping');
 
-    // Create a timestamp for the todo item.
+    // Create a timestamp for the shopping item.
     var timestamp = new Date().getTime();
 
-    // Create an object for the todo item.
-    var todo = {
+    // Create an object for the shopping item.
+    var shopping = {
       'text': text,
       'timestamp': timestamp
     };
 
     // Create the datastore request.
-    var request = objStore.put(todo);
+    var request = objStore.put(shopping);
 
     // Handle a successful datastore put.
     request.onsuccess = function (e) {
       // Execute the callback function.
-      callback(todo);
+      callback(shopping);
     }
 
     // Handle errors.
@@ -119,15 +119,15 @@ var todoDB = (function() {
 
 
   /**
-   * Delete a todo item.
-   * @param {int} id The timestamp (id) of the todo item to be deleted.
+   * Delete a shopping item.
+   * @param {int} id The timestamp (id) of the shopping item to be deleted.
    * @param {function} callback A callback function that will be executed if the 
    *                            delete is successful.
    */
-  tDB.deleteTodo = function(id, callback) {
+  tDB.deleteShopping = function(id, callback) {
     var db = datastore;
-    var transaction = db.transaction(['todo'], 'readwrite');
-    var objStore = transaction.objectStore('todo');
+    var transaction = db.transaction(['shopping'], 'readwrite');
+    var objStore = transaction.objectStore('shopping');
     
     var request = objStore.delete(id);
     
